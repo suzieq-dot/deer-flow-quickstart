@@ -1,31 +1,15 @@
-/**
- * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially useful
- * for Docker builds.
- */
-// Copyright (c) 2025 Bytedance Ltd. and/or its affiliates
-// SPDX-License-Identifier: MIT
-
 import "./src/env.js";
-import createNextIntlPlugin from 'next-intl/plugin';
+import createNextIntlPlugin from "next-intl/plugin";
 
-const withNextIntl = createNextIntlPlugin('./src/i18n.ts');
+const withNextIntl = createNextIntlPlugin("./src/i18n.ts");
 
 /** @type {import("next").NextConfig} */
-
-// DeerFlow leverages **Turbopack** during development for faster builds and a smoother developer experience.
-// However, in production, **Webpack** is used instead.
-//
-// This decision is based on the current recommendation to avoid using Turbopack for critical projects, as it
-// is still evolving and may not yet be fully stable for production environments.
-const nextConfig = {
+const config = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-};
 
-export default nextConfig;
-const config = {
-  // For development mode
+  // Development (Turbopack)
   turbopack: {
     rules: {
       "*.md": {
@@ -35,7 +19,7 @@ const config = {
     },
   },
 
-  // For production mode
+  // Production (Webpack)
   webpack: (config) => {
     config.module.rules.push({
       test: /\.md$/,
@@ -44,9 +28,8 @@ const config = {
     return config;
   },
 
-  // Generic hosting configuration
+  // Runtime config (optional)
   ...(process.env.PUBLIC_URL && {
-    // Use PUBLIC_URL for any hosting platform
     serverRuntimeConfig: {
       hostname: new URL(process.env.PUBLIC_URL).hostname,
     },
@@ -55,7 +38,6 @@ const config = {
     },
   }),
 
-  // ... rest of the configuration.
   output: "standalone",
 };
 
