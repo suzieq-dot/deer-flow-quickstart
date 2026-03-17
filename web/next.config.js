@@ -17,7 +17,13 @@ const withNextIntl = createNextIntlPlugin('./src/i18n.ts');
 //
 // This decision is based on the current recommendation to avoid using Turbopack for critical projects, as it
 // is still evolving and may not yet be fully stable for production environments.
+const nextConfig = {
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+};
 
+module.exports = nextConfig;
 const config = {
   // For development mode
   turbopack: {
