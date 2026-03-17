@@ -23,7 +23,7 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+export default nextConfig;
 const config = {
   // For development mode
   turbopack: {
